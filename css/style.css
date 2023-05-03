@@ -1,23 +1,9 @@
 @charset "utf-8";
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline-style: none;
-}
-ul {
-    list-style: none;
-}
-a {
-    color: #000;
-    text-decoration: none;
-}
-img {
-    vertical-align: middle;
-    border: 0;
-}
-html {
-    font-size: 16px;
-}
-body {
-}
+@import url("layout.css");
+@import url("header.css");
+@import url("visual.css");
+@import url("goods.css");
+@import url("company.css");
+@import url("news.css");
+@import url("info.css");
+@import url("footer.css");
