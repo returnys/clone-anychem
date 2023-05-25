@@ -1,0 +1,8 @@
+.visual {}
+.sw-visual{}
+.sw-visual .swiper-slide {
+    height: 780px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
