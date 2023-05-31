@@ -1,3 +1,8 @@
+/**
+ * 작성자 : 손용수
+ * 작성일 : 2023-05-26
+ * 기능 업데이트 : 메뉴 네비 작업 완료
+ */
 // 웹브라우저에 html, css, js, image를 모두 불러들여서 렌더링 준비가 끝나면
 // 그 때 function의 블럭 안쪽 {} 실행
 window.addEventListener("load", function () {
@@ -34,7 +39,7 @@ window.addEventListener("load", function () {
   let widthX = gnbA[0].getBoundingClientRect().width;
   navBlueBar.style.left = posX + "px";
   navBlueBar.style.width = widthX + "px";
-  
+
   gnbA.forEach((item) => {
     item.addEventListener("mouseenter", function (e) {
       // 기준으로 부터 떨어진 값
@@ -50,5 +55,23 @@ window.addEventListener("load", function () {
         duration: 400,
       });
     });
+  });
+  // 스크롤에 의한 position:fixed, relative 교체
+  const visual = document.querySelector(".visual");
+  window.addEventListener("scroll", function () {
+    // 스크롤 위치값을 파악
+    let scY = window.scrollY;
+    // classList.add()와 classList.remove() 활용
+    if (scY > 0) {
+      // 스크롤바가 아래로 조금이라도 이동
+      // position: fixed;
+      header.classList.add("header-fixed");
+      visual.classList.add("visual-fixed");
+    } else {
+      // 스크롤바가 최상단에 위치
+      // position: relative;
+      header.classList.remove("header-fixed");
+      visual.classList.remove("visual-fixed");
+    }
   });
 });
