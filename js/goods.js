@@ -3,12 +3,14 @@ window.addEventListener("load", function () {
   //   .then((res) => res.json())
   //   .then((result) => console.log(result))
   //   .catch((err) => console.log(err));
+
   let swGoods;
   // const SLIDECOUNT = 4;
+
   const getData = async function () {
     try {
-      let response = await fetch("data/gooddata.json");
-      let result = await response.json();
+      let res = await fetch("data/gooddata.json");
+      let result = await res.json();
       makeSlide(result);
       makeSlideShow();
       makeMenu(result);
@@ -16,21 +18,24 @@ window.addEventListener("load", function () {
       console.log(err);
     }
   };
-  function makeSlide(_result) {
+
+  function makeSlide(_data) {
     let html = ``;
-    let copyArr = [..._result.goods];
+    let copyArr = [..._data.goods];
+
     // Swiper 버전에 따른 문제 발생
-    // 강제 목록 추가한것 제거
-    // if (_result.goods.length <= SLIDECOUNT) {
-    //   copyArr = [..._result.goods, ..._result.goods];
+    // 강제 목록 추가 제거
+    // if (copyArr.length <= SLIDECOUNT) {
+    //   copyArr = [..._data.goods, ..._data.goods];
     // }
-    copyArr.forEach((item) => {
+
+    copyArr.forEach((item, index, arr) => {
       let tag = `
         <div class="swiper-slide">
           <a href="${item.link}" class="good-link">
             <div class="good-item">
-              <div class="good-item-img">
-                <img src="images/${item.image}" alt="${item.alt}" />
+              <div class="good-item-img" style="background-image:url(images/${item.image});">
+                
               </div>
               <div class="good-item-txt">
                 <p>${item.title}</p>
@@ -42,20 +47,23 @@ window.addEventListener("load", function () {
       `;
       html += tag;
     });
+
     document.querySelector(".sw-goods .swiper-wrapper").innerHTML = html;
   }
+
   function makeSlideShow() {
     swGoods = new Swiper(".sw-goods", {
       loop: true,
       speed: 1000,
       slidesPerView: 3,
-      navigation: {
-        prevEl: ".sw-goods-prev",
-        nextEl: ".sw-goods-next",
-      },
+      spaceBetween: 50,
       autoplay: {
-        delay: 2000,
+        delay: 2500,
         disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".sw-goods-next",
+        prevEl: ".sw-goods-prev",
       },
       breakpoints: {
         480: {
@@ -63,58 +71,75 @@ window.addEventListener("load", function () {
           spaceBetween: 30,
         },
         768: {
-          slidesPerView: 3,
+          slidesPerView: 2,
           spaceBetween: 30,
         },
         1400: {
           slidesPerView: 3,
-          spaceBetween: 50,
+          spaceBetween: 30,
+        },
+        1600: {
+          slidesPerView: 3,
+          spaceBetween: 30,
         },
       },
     });
     swGoods.on("slideChange", function () {
       // let count = this.realIndex % SLIDECOUNT;
+      // focusMenu(count);
       focusMenu(this.realIndex);
     });
   }
 
-  function focusMenu(_count) {
+  function focusMenu(_index) {
     let lis = document.querySelectorAll(".goods-list li");
-    lis.forEach((item, index) => {
-      if (index === _count) {
-        // 순서번호랑 슬라이드 번호가 같다면 add한다.
+    lis.forEach((item, index, arr) => {
+      if (index === _index) {
+        // 순서번호랑 슬라이드 번호가 같다면 add
         item.classList.add("focus");
       } else {
         item.classList.remove("focus");
       }
     });
   }
-  function makeMenu(_result) {
+
+  function makeMenu(_data) {
     let html = ``;
-    _result.goods.forEach((item) => {
-      let tag = `<li><a href="#">${item.title}</a></li>`;
+    _data.goods.forEach((item, index, arr) => {
+      let tag = `
+        <li><a href="#">${item.title}</a></li>
+      `;
       html += tag;
     });
     document.querySelector(".goods-list").innerHTML = html;
 
-    // li태그를 클릭하는 경우 슬라이드 이동
+    // li 의 태그를 클릭을 하는 경우 슬라이드이동
     let lis = document.querySelectorAll(".goods-list li a");
-    lis.forEach((item, index) => {
-      item.onclick = function (e) {
-        e.preventDefault();
+    lis.forEach((item, index, arr) => {
+      item.onclick = function (event) {
+        // a 태그의 href 막기
+        event.preventDefault();
         swGoods.slideToLoop(index);
       };
-      focusMenu(0);
     });
+
+    focusMenu(0);
   }
+
   getData();
+
   // 슬라이드 멈추기/재생하기
   const bt = document.querySelector(".sw-goods-pause");
   const icon = bt.querySelector(".fa-pause");
+
   let swGoodsState = "play";
-  bt.onclick = function () {
+  bt.onclick = (event) => {
+    const isPlaying = swGoodsState === "play";
+    swGoods.autoplay[isPlaying ? "stop" : "start"]();
+    swGoodsState = isPlaying ? "stop" : "play";
+    icon.classList.toggle("fa-play");
     // if (swGoodsState === "play") {
-    //   // 슬라이드 멈춤
+    //   // 슬라이드 멈춰라
     //   swGoods.autoplay.stop();
     //   swGoodsState = "stop";
     //   icon.classList.add("fa-play");
@@ -124,9 +149,6 @@ window.addEventListener("load", function () {
     //   swGoodsState = "play";
     //   icon.classList.remove("fa-play");
     // }
-    const isPlaying = swGoodsState === "play";
-    swGoods.autoplay[isPlaying ? "stop" : "start"]();
-    swGoodsState = isPlaying ? "stop" : "play";
-    icon.classList.toggle("fa-play");
   };
+  //------------- 재생 멈추기
 });
