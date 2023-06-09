@@ -47,9 +47,11 @@ $fontName: "Noto Sans KR", sans-serif;
                 font-weight: 400;
               }
               > p {
+                position: relative;
                 font-size: 27px;
                 line-height: 1.5;
                 font-weight: 700;
+                z-index: 5;
               }
               a {
                 display: inline-block;
