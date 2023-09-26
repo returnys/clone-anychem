@@ -27,6 +27,47 @@ body {
   letter-spacing: -0.3px;
   word-break: keep-all;
 }
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 99999999;
+}
+.modal-cont {
+  padding: 20px;
+  width: 700px;
+  height: 430px;
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+}
+.modal-imprv {
+  margin: 20px 0;
+}
+.modal-cont strong {
+  font-size: 25px;
+}
+.modal-cont p {
+  font-size: 20px;
+  line-height: 20px;
+  padding: 5px;
+}
+.modal-cont p:first-child {
+  font-size: 32px;
+  line-height: 32px;
+  margin-bottom: 30px;
+}
+.modal-active {
+  overflow: hidden !important;
+}
+
 /* 공통클래스 */
 .inner {
   max-width: 1500px;

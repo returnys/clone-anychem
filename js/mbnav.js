@@ -6,6 +6,15 @@ window.addEventListener("load", function () {
   const mbWrapActive = "mb-wrap-active";
   const mbWidth = 1024;
 
+  // 안내창
+  let wrap = document.querySelector(".wrap");
+  wrap.classList.add("modal-active");
+  let modal = document.querySelector(".modal");
+  modal.onclick = function () {
+    wrap.classList.remove("modal-active");
+    this.style.display = "none";
+  };
+
   mbNav.addEventListener("click", function () {
     // mb-nav-active 클래스 적용 여부(true, false)
     let checkActive = mbNav.classList.contains(mbNavActive);
